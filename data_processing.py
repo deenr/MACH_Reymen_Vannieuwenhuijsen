@@ -9,9 +9,13 @@ import csv
 
 
 # Press the green button in the gutter to run the script.
+import random
 from datetime import datetime
 
-if __name__ == '__main__':
+import numpy as np
+
+
+def process_data():
     data_header = []
 
     # load in the different holidays
@@ -66,6 +70,7 @@ if __name__ == '__main__':
     with open('Metro_Interstate_Traffic_Volume.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         index = 0
+
         for row in csv_reader:
             new_row = []
             if index > 0:
@@ -257,7 +262,7 @@ if __name__ == '__main__':
                 elif weather_description == "sleet":
                     new_row.extend(
                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                         0, 0, 0, 1, 0])
+                         0, 0, 0, 0, 1])
                 else:
                     new_row.extend(
                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -321,5 +326,17 @@ if __name__ == '__main__':
                 writer.writerow(new_row)
 
             index = index + 1
+    f.close()
+
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+def shuffle_data():
+    import random
+
+    with open('metro_traffic_data.csv', 'r') as r, open('random_metro_traffic_data.csv', 'w') as w:
+        data = r.readlines()
+        header, rows = data[0], data[1:]
+        random.shuffle(rows)
+        rows = '\n'.join([row.strip() for row in rows])
+        w.write(header + rows)
